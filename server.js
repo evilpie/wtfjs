@@ -1,19 +1,19 @@
-require.paths.unshift("lib/express/lib");
-require.paths.unshift("lib/wtfjs");
-require.paths.unshift("lib/showdown-v0.9/src");
-require.paths.unshift("lib/prettyfy");
+require.paths.unshift("node-code-blog");
+require("node-code-blog");
 
-require("express");
-require("express/plugins");
-require("wtf");
-
-// config block; sorta fugly
-configure(function() {
-    set('root', __dirname + '/lib/wtfjs');
-    // set('views', __dirname + '/views');
-    use(Logger);
-    use(Static);
-    enable('show exceptions');
+config({ 
+    root: __dirname + '/node-code-blog/lib/node-code-blog-themes/wtfjs',
+    title: 'wtfjs',
+    domain: 'wtfjs.com',
+    desciption: 'JavaScript is a language we love despite it giving us so much to hate. This is a collection of those very special irregularities, inconstancies and just plain painfully unintuitive moments for the language of the web.',
+    analytics:''
 });
 
-run(parseInt(process.env.PORT || 8000), null);
+// GET "/license" - diplays the WTFPL
+get('/license', function(){
+    var fs = require('fs')
+    ,   path = require('path');
+    return fs.readFileSync( path.normalize( path.join( __dirname, 'LICENSE' )));
+});
+
+init();
